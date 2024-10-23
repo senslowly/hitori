@@ -1227,7 +1227,7 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 					}).join('\n');
 					if (text === 'settings') m.reply(settingsBot);
 				} else {
-					naze.sendMessage(m.chat, { text: `*Bot Telah Online Selama*\n*${runtime(process.uptime())}*` }, { quoted: m })
+					naze.sendMessage(m.chat, { text: `*SenStranger AI Telah Online Selama*\n*${runtime(process.uptime())}*` }, { quoted: m })
 				}
 			}
 			break
@@ -2808,9 +2808,6 @@ module.exports = naze = async (naze, m, chatUpdate, store) => {
 │${setv} ${prefix}getsession
 │${setv} ${prefix}delsession
 │${setv} ${prefix}delsampah
-│${setv} $
-│${setv} >
-│${setv} <
 ╰──────❍`
 				await naze.sendMessage(m.chat, {
 					document: fake.docs,
