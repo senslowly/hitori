@@ -60,16 +60,16 @@ async function startNazeBot() {
 	const getMessage = async (key) => {
 		if (store) {
 			const msg = await store.loadMessage(key.remoteJid, key.id);
-			return msg?.message ||
+			return msg?.message || ''
 		}
 		return {
-			conversation: 'Halo Saya SennStranger AI'
+			conversation: 'Halo Saya Naze Bot'
 		}
 	}
 	
 	const naze = WAConnection({
 		isLatest,
-		//version: [2, 3000, 1015901307],
+		version: [2, 3000, 1015901307],
 		logger: level,
 		printQRInTerminal: !pairingCode,
 		browser: Browsers.ubuntu('Chrome'),
