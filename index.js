@@ -60,10 +60,10 @@ async function startNazeBot() {
 	const getMessage = async (key) => {
 		if (store) {
 			const msg = await store.loadMessage(key.remoteJid, key.id);
-			return msg?.message || ''
+			return msg?.message ||
 		}
 		return {
-			conversation: 'Halo Saya Naze Bot'
+			conversation: 'Halo Saya SennStranger AI'
 		}
 	}
 	
