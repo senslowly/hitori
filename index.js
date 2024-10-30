@@ -69,7 +69,7 @@ async function startNazeBot() {
 	
 	const naze = WAConnection({
 		isLatest,
-		version: [2, 3000, 1015901307],
+		//version: [2, 3000, 1015901307],
 		logger: level,
 		printQRInTerminal: !pairingCode,
 		browser: Browsers.ubuntu('Chrome'),
@@ -92,59 +92,6 @@ async function startNazeBot() {
 		generateHighQualityLinkPreview: true,
 	})
 	
-	if (pairingCode && !naze.authState.creds.registered) {
-		let phoneNumber;
-		async function getPhoneNumber() {
-			phoneNumber = await question('Please type your WhatsApp number : ');
-			phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
-			
-			if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v)) && !phoneNumber.length < 6) {
-				console.log(chalk.bgBlack(chalk.redBright('Start with your Country WhatsApp code') + chalk.whiteBright(',') + chalk.greenBright(' Example : 62xxx')));
-				await getPhoneNumber()
-			}
-		}
-		
-		setTimeout(async () => {
-			await getPhoneNumber()
-			await exec('rm -rf ./nazedev/*')
-			let code = await naze.requestPairingCode(phoneNumber);
-			console.log(`Your Pairing Code : ${code}`);
-		}, 3000)
-	}
-	
-	store.bind(naze.ev)
-	
-	await Solving(naze, store)
-	
-	naze.ev.on('creds.update', saveCreds)
-	
-	naze.ev.on('connection.update', async (update) => {
-		const { connection, lastDisconnect, receivedPendingNotifications } = update
-		if (connection === 'close') {
-			const reason = new Boom(lastDisconnect?.error)?.output.statusCode
-			if (reason === DisconnectReason.connectionLost) {
-				console.log('Connection to Server Lost, Attempting to Reconnect...');
-				startNazeBot()
-			} else if (reason === DisconnectReason.connectionClosed) {
-				console.log('Connection closed, Attempting to Reconnect...');
-				startNazeBot()
-			} else if (reason === DisconnectReason.restartRequired) {
-				console.log('Restart Required...');
-				startNazeBot()
-			} else if (reason === DisconnectReason.timedOut) {
-				console.log('Connection Timed Out, Attempting to Reconnect...');
-				startNazeBot()
-			} else if (reason === DisconnectReason.badSession) {
-				console.log('Delete Session and Scan again...');
-				startNazeBot()
-			} else if (reason === DisconnectReason.connectionReplaced) {
-				console.log('Close current Session first...');
-				startNazeBot()
-			} else if (reason === DisconnectReason.loggedOut) {
-				console.log('Scan again and Run...');
-				exec('rm -rf ./nazedev/*')
-				process.exit(1)
-			} else if (reason === DisconnectReason.Multidevicemismatch) {
 	if (pairingCode && !naze.authState.creds.registered) {
 		let phoneNumber;
 		async function getPhoneNumber() {
